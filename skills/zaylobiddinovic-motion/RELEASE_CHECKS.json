@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "base": "Motion Video Director 3.5.2 (MIT), renamed to zaylobiddinovic-motion",
+  "tested_host": "macOS (Apple Silicon); Python 3.15.0; Node (Homebrew); FFmpeg 9.0.2 Homebrew build without drawtext; no Pillow, NumPy, ImageMagick or Playwright",
+  "passed": [
+    "YAML frontmatter name matches folder: zaylobiddinovic-motion",
+    "Entrypoint resource links resolve",
+    "Python AST parse: all scripts",
+    "Node syntax: scripts/preview.mjs and templates/render/*.js",
+    "Bash syntax: create_env.sh, preflight.sh, analyze_ref.sh",
+    "JSON parse: config example, SFX catalog template, plugin.json, marketplace.json",
+    "preflight.py runs read-only; default models dir ~/.cache/zaylobiddinovic-motion/models",
+    "ZM_MODELS and .zm/config.json overrides are read",
+    "create_env.py writes the zaylobiddinovic-motion header once (idempotent)",
+    "gen_sfx_elevenlabs.py and setup_audio_models.py print offline plans without network",
+    "verify_sfx.py reports not_configured without a catalog",
+    "preview.mjs: mock renderer contact sheet + MP4 with audio",
+    "analyze_ref.sh: synthetic reference -> sheet, hook strip, audio, cut detected at 3.000 s"
+  ],
+  "known_limitations_on_test_host": [
+    "Contact sheets have no timestamp labels when FFmpeg lacks drawtext and Pillow/ImageMagick are absent (warned at run time)"
+  ],
+  "not_tested": [
+    "templates/render with Playwright/Chromium (not installed on test host)",
+    "procedural_sfx.py and audio_tag.py (NumPy/librosa not installed)",
+    "Live Claude upload/activation and plugin marketplace install",
+    "Paid ElevenLabs generation",
+    "Optional model inference",
+    "Windows/Linux execution"
+  ]
+}

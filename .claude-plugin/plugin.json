@@ -1,7 +1,7 @@
 {
   "name": "zaylobiddinovic-motion",
-  "version": "1.0.0",
-  "description": "Make motion graphics, 3D product and logo animations, reels, captions, sound effects and footage edits with Claude Code, rendered locally with Remotion and FFmpeg.",
+  "version": "2.0.0",
+  "description": "Motion graphics and video editing skill for Claude Code. Plans, animates, edits, voices and sound-designs complete videos, rendered locally without After Effects.",
   "author": {
     "name": "Zaylobiddinovic",
     "url": "https://github.com/umar1289"
@@ -10,20 +10,17 @@
   "repository": "https://github.com/umar1289/zaylobiddinovic-motion-skill",
   "license": "MIT",
   "keywords": [
-    "3d",
+    "motion-graphics",
+    "video-editing",
+    "ai-video-editing",
+    "claude-code",
+    "claude-skills",
     "animation",
     "captions",
-    "elevenlabs",
-    "ffmpeg",
-    "motion-graphics",
-    "reels",
-    "remotion",
-    "sfx",
     "sound-design",
-    "sound-effects",
-    "subtitles",
+    "ffmpeg",
     "threejs",
-    "video",
-    "video-editing"
+    "elevenlabs",
+    "after-effects-alternative"
   ]
 }

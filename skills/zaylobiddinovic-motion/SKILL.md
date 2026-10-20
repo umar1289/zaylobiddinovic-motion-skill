@@ -1,133 +1,73 @@
 ---
 name: zaylobiddinovic-motion
-description: "Produce videos with code: motion graphics, product promos, explainers, kinetic typography, 3D product and logo animations, animated captions/subtitles, sound effects and sound design, social reels and footage edits, rendered locally with Remotion (React, Three.js) and FFmpeg. Use this skill whenever the user wants to make, animate, edit, cut, reframe, caption, subtitle, add sound effects/music/voice to, or render a video or animation — even if they only say 'make a reel', 'animate this logo in 3D', 'add whooshes', 'add subtitles to my clip', 'turn this script into a video' or 'fix my render'. Requires file and terminal access."
+description: "Create and edit motion graphics, product videos, captions and SFX. Use for video animation, footage edits or render fixes with a coding agent and file/terminal access."
 ---
 
-# Zaylobiddinovic Motion
+# Zaylobiddinovic Motion — v2.0.0
 
-You are the director, motion designer and editor for the user's video. Your job is to turn a brief into an approved storyboard, then into a deterministic Remotion or FFmpeg project that renders the same video every time, and to keep checking your own frames before the user has to.
+Act as director, motion designer, editor and sound designer. Read this short entrypoint once per session. Load only the relevant guides below; do not reread the entire manual before every reply. On a small fix, load the affected section and project state, not a new-project onboarding sequence.
 
-`<skill>` below means the directory containing this file. Resolve it from where this file is installed; do not assume the current working directory. Quote paths that contain spaces.
+## Licence and permitted use
+This skill is released under the MIT License. Anyone may use, copy, modify, merge, publish, distribute, sublicense and sell copies, provided the copyright and licence notice are retained in copies or substantial portions. `LICENSE.md` contains the complete terms. This permission covers the skill package itself; third-party software, models, fonts, footage, audio and other assets remain subject to their own terms.
 
-## Pick the track
+For installation and Claude app versus local execution limits, read `reference/installation.md`. This skill requires file/terminal tools for execution; it does not grant access to a local drive from a remote sandbox.
 
-Most requests fit one track; mixed jobs combine them in this order (edit → build → 3D → caption → sound → deliver).
+## 1. Resolve the user's environment
+- Ask for a project folder only if unknown; keep project code, inputs, cues, cache and exports there. Never assume the author's drive, username, model cache, toolkit, GPU, SFX preferences or approved assets exist on this machine.
+- Resolve `<skill>` from the installed location of this file, not the current working directory. Quote every executable/path containing spaces. Use the selected Python (`python`, `python3`, or a configured interpreter); run scripts from `<skill>/scripts` with the project as working directory.
+- Run `python "<skill>/scripts/preflight.py"` for a read-only inventory. It installs nothing, downloads nothing and does not expose key values. On a new machine, read `reference/setup-and-integrations.md` and `reference/portability.md`.
+- Optional local config: copy `config.example.json` to `<project>/.zm/config.json` and customize it. Environment overrides are `ZM_CONFIG`, `ZM_MODELS`, `ZM_AUDIO_PYTHON`, `ZM_TOOLKIT`, `ZM_SFX_LIBRARY`, `ZM_FFMPEG`, `ZM_FFPROBE`. CLI model-directory flags override model defaults. Remove personal configuration and secrets before distributing a copy.
+- Defaults do not rely on an author library: use a customer-configured SFX library or project `assets/sfx`; shared models at `~/.cache/zaylobiddinovic-motion/models`; no assumed shared Node toolkit. Use a compatible existing renderer or an authorized project-local stack. Missing AI models do not block basic sound design.
 
-| Track | When | Engine | Read |
-|---|---|---|---|
-| **Build** | Graphics made from nothing: promos, explainers, title cards, logo stings, data animations, kinetic text | Remotion | `references/remotion-guide.md`, `references/motion-design.md` |
-| **3D** | Real depth: product/device turning in space, extruded logo, camera fly-through, models | Remotion + React Three Fiber (`assets/addons/three-3d`) | `references/3d-guide.md` |
-| **Edit** | The user has footage: trim, join, reframe 16:9→9:16, speed, crossfade, overlay, burn subtitles, clean up audio | FFmpeg (Remotion if heavy graphics go on top) | `references/ffmpeg-editing.md` |
-| **Caption** | Spoken video needs word-timed animated captions or an SRT | Whisper → `@remotion/captions` | `references/captions.md` |
-| **Sound effects** | Whooshes, pops, clicks, impacts, risers, typing, UI sounds placed on animation events | `sfx_synth.py` / user's library / ElevenLabs → cue sheet → `<SfxTrack>` | `references/sound-design.md` |
-| **Audio** | Music, voiceover, ducking, loudness | Remotion `<Audio>` + FFmpeg | `references/audio.md` |
-| **Deliver** | Final export for a platform, QA | Remotion CLI / FFmpeg | `references/delivery.md` |
+## 2. Resume before creating
+Read project `TASTE.md` fully for the approved style, then `PROGRESS.md` and the end of `LOG.md` if they exist. Preserve approved parts, source voice masters and working renderers. Treat user/project-specific preferences as project data, not universal skill rules.
 
-For a one-line fix in an existing project ("the title is cut off at 0:04"), skip the intake below: read the project's code and `storyboard.md`, fix it, render a still of the affected frame, check it, done.
+For a new project, collect only missing essentials: story, references, format, duration, audience, voiceover, assets and constraints. Choose A code-drawn / B mixed assets / C footage edit; describe the next step briefly. Create project tracking only when needed. Read `reference/planning-and-tracking.md` for structure, templates and production gates.
 
-## 1. Check the machine
+## 3. Plan, then render deterministically
+1. Analyze provided references before inventing a look. Read `reference/reference-and-delivery.md`; export contact sheets and inspect the requested time windows. Copy techniques, not unlicensed artwork/audio.
+2. Approve a script/storyboard and design direction. For narrated scenes, get the user's final narration file before locking scene timing; use a temporary guide only if explicitly authorized. The voice may be recorded or generated by the user's chosen service; ElevenLabs is an option, not a prerequisite.
+3. Lock word/event timings in project `plan/beats.json`; drive visuals and SFX from the same cue data. Read `reference/voiceover.md` only for narration writing/timing guidance.
+4. Build absolute-time, seeded animation. Every frame must depend only on time and explicit inputs; no browser clocks, uncontrolled physics or prior-frame state. Preserve compatible installed versions; do not silently migrate frameworks or upgrade dependencies.
+5. Use short, low-resolution range previews after changes. Inspect dense sheets for composition/overlaps and mixed-audio previews for timing before full export. Get approval unless the user's current instructions explicitly waive it. Never treat successful encoding as aesthetic approval.
+6. Save a new plainly named final version and README. Keep intermediate frames/sheets/mixes in cache and logs in the agreed log directory; obey requested clean delivery folders. Never delete approved work or another project without permission.
 
-Run `python3 "<skill>/scripts/check_env.py"`. It only reports what exists; it installs nothing. Node 18+ and FFmpeg are needed for almost everything; Whisper only for captions.
+## 4. Match motion and sound to the scene
+- Read `reference/visual-design.md` for motion principles, layout, colour, typography and footage editing. Use `reference/fonts.md` before font sourcing; verify licences. Match project taste, not generic effects.
+- For new 3D scenes read `reference/cinematic-toolkit.md`. React Three Fiber + Drei are a default, not a reason to rewrite approved native Three.js code. Resolve actual toolkit/browser paths; do not assume CUDA or any specific GPU.
+- For audio work read **`reference/local-sound-workflow.md`**. Generate new SFX with ElevenLabs' API following **`reference/elevenlabs-sfx.md`**; use the customer's licensed assets and procedural layers where appropriate. Obtain paid-request/privacy approval first and never expose API keys. Add deliberate sound coverage for every meaningful animation: contacts/clicks, grouped text textures, velocity envelopes or documented silence—not one sound on every frame.
+- Local audio stack: FFmpeg, librosa, NumPy/SciPy; optional local CLAP retrieval and PANNs clip tags. CoNeTTE is **experimental/manual setup**, not required, bundled, installed or a tested integration in this release. jsfxr, Audacity and Surge XT are optional. ElevenLabs is the new-SFX generation route; optional analysis stays local. No local generative audio model is required or bundled. If credentials/approval are absent, explain the gap and offer licensed assets/procedural sounds.
+- Prefer short, dry, restrained UI/text sounds and material-matched Foley. Place perceived transients on visual events, trim tails, preserve speech clarity, and test actual mixed cue audibility; integrated LUFS is not a substitute. Mute footage/monitor audio when requested. No music unless the brief calls for it.
+- No collected SFX audio, original downloads, private catalog or review decisions are included. Let each customer source/choose their own licensed samples, audition them, and save decisions in the project. Do not inherit the author's private taste or approval history.
 
-Ask before installing anything, downloading models, or spending money on paid APIs (TTS, music, stock). Say what it is, roughly how big, and why. If something is missing and the user declines, offer the next best route (e.g. a hand-written SRT instead of transcription).
+## 5. Safety and delivery rules
+- Ask before installations, model downloads, purchases or modifying shared environments. Inventory first; install only what the selected pipeline needs. Reuse weights between projects. Keep individual audio-model checkpoints below 1 GB unless the user explicitly changes that limit; disk/RAM/dependency sizes are separate.
+- Use official model sources and verify downloaded bytes. Never run downloaded code or load an arbitrary pickle checkpoint. PANNs' legacy `.pth` requires explicit consent, official-source integrity checks, a current supported PyTorch (minimum 2.6) and restricted `weights_only` loading; never retry with unsafe loading. Read the audio guide's limits.
+- Do not print, log, commit or package secrets, `.env`, local absolute paths, machine inventories or customer audio. Rendering/local analysis need no API key; ElevenLabs generation uses each user's securely configured `ELEVENLABS_API_KEY`. Send only approved descriptive text, not private reference audio, and respect the agreed request/credit budget.
+- Preserve source URL, author, licence, quality limitations and processing in the asset manifest. Permission to study a reference is not permission to reuse its soundtrack in a delivery. Lossy OGG/MP3 does not become lossless after WAV conversion.
+- Perform the agreed checks before final export: framing/readability, correct timing, every requested sound cue, no unwanted tails, intelligible narration, duration/fps/resolution, true peak/loudness, expected codec, complete licences and versioned output. Respect explicit user review instructions and be truthful about measured, inferred and human-auditioned results.
 
-## 2. Brief
-
-Find out only what you don't already know. If the user gave a script and a deadline, don't re-ask for them.
-
-- **Goal and audience** — what should a viewer feel or do afterwards?
-- **Platform and format** — sets aspect ratio and length. Defaults: YouTube 1920×1080, Reels/TikTok/Shorts 1080×1920, feed posts 1080×1080 or 1080×1350; 30 fps unless footage dictates otherwise.
-- **Length** — and whether it is fixed or follows a voiceover.
-- **Content** — on-screen text, voiceover script or recording, footage, logos, product shots.
-- **Look** — brand colours, fonts, reference videos. If there are references, make a contact sheet (`scripts/contact_sheet.py`) and describe what you see before designing.
-- **Sound** — music? sound effects? voice? Who supplies licensed files?
-
-When the user says "just make something", pick sensible defaults, state them in two lines, and go.
-
-## 3. Storyboard before code
-
-Write `storyboard.md` in the project: one row per scene with start/end seconds, what's on screen, how it moves, and what's heard. Keep it short enough to read in a minute. Get a yes (or edits) before building, unless the user said to skip approvals. A storyboard costs a minute to change; a rendered scene costs much more.
-
-When a voiceover exists, timing comes from the voice: transcribe it (see `references/captions.md`), and anchor scene changes to word timestamps instead of guessing.
-
-## 4. Build
-
-Start a new Remotion project from the bundled starter instead of `npx create-video`, because it is already wired for storyboard-driven scenes, captions and responsive sizing:
-
-```bash
-cp -R "<skill>/assets/remotion-starter" "<project>/video"
-cd "<project>/video" && npm install
-```
-
-(Ask before `npm install`; it downloads ~250 packages. Remotion also downloads a headless Chrome on first render.) Then edit `src/storyboard.ts` to match the approved storyboard, `src/theme.ts` for brand colours and font, and add components under `src/components/` for anything the starter does not cover. For 3D, add `assets/addons/three-3d` as its README describes (more packages; ask first). In an existing project, keep its structure and versions; don't migrate frameworks or bump dependencies uninvited.
-
-### Determinism rules
-
-A Remotion frame is rendered in a fresh browser tab, in parallel, in any order. Anything that depends on wall-clock time or previous frames will flicker or differ between renders. So:
-
-- Drive every change from `useCurrentFrame()` via `interpolate()` or `spring()`. No CSS `transition`/`animation`, no `requestAnimationFrame`, no `setTimeout`, no GSAP timelines left running on their own.
-- No `Math.random()` or `Date.now()`; use `random("some-seed")` from `remotion`.
-- Load assets through `staticFile()` from `public/`; use `<OffthreadVideo>` for footage, `<Img>` for images, `<Audio>` for sound, so Remotion waits for them.
-- Load fonts with `@remotion/google-fonts/<Font>` or `@remotion/fonts`; never rely on a system font being present.
-- Any async work (fetching data, measuring text) goes in `calculateMetadata` or behind `delayRender()`/`continueRender()`.
-- Size things relative to the frame (the starter's `useUnit()` = 1% of the short side) so a composition survives a format change.
-- In 3D, never animate with `useFrame`, `state.clock` or self-animating drei helpers (`Float`, `Sparkles`…); compute transforms from the frame (`references/3d-guide.md`).
-
-### Sound effects
-
-Plan sound with the picture, not after it. Spot the meaningful events in the storyboard, pick a small palette, source each sound (user's library → `sfx_synth.py` → ElevenLabs with approval), and list every effect in one cue sheet (`public/sfx_cues.json`) timed from the same numbers as the animation. `sfx_cues.py prepare` turns event times into exact start times using each file's measured hit, and flags collisions and masking; `<SfxTrack>` plays the sheet. Details and the event-to-sound table: `references/sound-design.md`.
-
-`references/remotion-guide.md` has the API patterns, transitions, CLI flags and common errors.
-
-## 5. Look at your own work
-
-Rendering successfully means only that the encoder finished, not that the video is good. Before showing the user anything:
-
-1. Render stills at the moments that matter: each scene's settled state, mid-transition, and the busiest frame. `npx remotion still <Comp> out/check-f120.png --frame=120`
-2. For footage or whole drafts, make a contact sheet: `python3 "<skill>/scripts/contact_sheet.py" out/draft.mp4 out/sheet.png --count 12`
-3. Open the images and actually inspect them: text inside safe margins, nothing overlapping, readable contrast, captions not under platform UI, nothing clipped mid-word, hierarchy obvious at thumbnail size.
-4. Fix what you find, then render a half-scale draft (`--scale=0.5`) for the user to watch.
-
-Iterate on stills; they take seconds. Only render full-length video when the stills are right.
-
-## 6. Deliver
-
-Follow `references/delivery.md`: platform preset, loudness (`scripts/loudness.py`), technical check (`scripts/probe_media.py`), and the QA checklist. Save finals with a version number (`productname-reel-v3.mp4`), never over an earlier approved version, and never over the user's source footage. Tell the user what you verified by measurement and what you judged by eye.
-
-## Project layout
-
-```
-<project>/
-  storyboard.md        approved plan; update when it changes
-  assets/              user-supplied originals (never modified)
-  video/               Remotion project (from the starter)
-    public/            media used by compositions, captions.json
-    public/sfx/        sound effects + sfx_manifest.json (generated) ; public/sfx_cues.json
-    src/storyboard.ts  scene timing and content
-  out/                 stills, sheets, drafts
-  final/               versioned deliverables + credits.txt for licensed assets
-```
-
-## Scripts
-
-All are Python 3 standard library and call `ffmpeg`/`ffprobe`. Run with `--help` for options.
-
-| Script | Does |
+## Guides — load only for the current task
+| Guide | Load for |
 |---|---|
-| `scripts/check_env.py` | Reports Node, FFmpeg, Whisper engines, whether API keys are set (never their values) |
-| `scripts/probe_media.py FILE…` | Duration, resolution, fps, codecs, audio layout |
-| `scripts/contact_sheet.py VIDEO OUT.png` | Grid of evenly spaced frames, for reviewing references and drafts |
-| `scripts/transcribe.py MEDIA --out captions.json` | Local Whisper → word-timed `Caption[]` JSON (+ `--srt`) |
-| `scripts/loudness.py measure|normalize` | EBU R128 measurement and two-pass normalization |
-| `scripts/sfx_synth.py RECIPE --out F` | 20 seeded procedural SFX (click, pop, whoosh, riser, impact, typing, chime…) with pitch/length/variations |
-| `scripts/sfx_generate.py --prompt … --out F` | ElevenLabs sound generation; dry-run plan unless `--yes`; records a manifest |
-| `scripts/sfx_analyze.py FILE…` | Onset, hit, peak, tail, levels; `--trim` silence/tails; `--spectrogram` |
-| `scripts/sfx_library.py index|search` | Index the user's SFX folder (tags, timings, licences) and search it with synonyms |
-| `scripts/sfx_cues.py prepare|mix|check|from-captions` | Cue sheet: align hits to events, warn on problems, preview mix, audibility vs voice/music |
+| `reference/installation.md` | Claude upload, Claude Code installation, capability limits and acceptance tests |
+| `reference/portability.md` | First setup, path/config resolution, fresh machines and OS differences |
+| `reference/setup-and-integrations.md` | Prerequisites, optional integrations, keys and browser/tool setup |
+| `reference/planning-and-tracking.md` | Brief, storyboard, project structure, taste memory, preview/render contract |
+| `reference/visual-design.md` | Typography, layout, motion, compositing and footage edits |
+| `reference/voiceover.md` | Narration scripting, generation options and timing |
+| `reference/cinematic-toolkit.md` | New 3D scenes, compatibility, cameras and deterministic capture |
+| `reference/elevenlabs-sfx.md` | ElevenLabs SFX generation, secure key setup, paid-call approval, prompting and local finishing |
+| `reference/local-sound-workflow.md` | Local audio analysis, approved selection, synthesis, synchronization and mixing |
+| `reference/reference-and-delivery.md` | Reference breakdown and final QA/delivery |
+| `reference/fonts.md` | Font research, downloads and licence checks |
+| `reference/inspiration.md` | Designers/studios and reference discovery |
+| `reference/recipes.md` | Applicable motion-design recipes |
+| `reference/asset-hunting.md` | Visual asset discovery and provenance |
+| `reference/mcp-setup.md` | Configuring an optional MCP integration |
 
-## Rights and safety
-
-- Use only fonts, music, footage and sound effects the user owns or has a licence for, or that are clearly free for the use (check the licence, record it in `final/credits.txt`). A reference video shows a technique; it does not license its assets.
-- Never print or commit API keys; read them from environment variables.
-- Remotion is free for individuals, non-profits and companies of up to 3 people; larger companies need a Remotion company licence. Mention this once if the user appears to work for a larger company.
-- Don't delete user files or earlier versions without asking.
+## Bundled resources and capability limits
+- `templates/sfx-catalog.example.json`: empty schema example for a customer-owned catalog. No SFX audio or private collection is bundled. Procedural helpers can create simple designed sound candidates locally; realistic Foley may need a separately licensed source.
+- `scripts/`: read-only preflight/config inventory; reference analysis; optional local model tagging; seeded procedural sound recipes; explicit official PANNs download/integrity helper; consent-gated ElevenLabs SFX API helper (offline plan by default); project/env/preview utilities.
+- `templates/`: project taste and visual design starters plus `render/`, a deterministic Canvas/Playwright rendering starter for new projects. See the planning guide for copying and smoke testing; do not replace an existing working renderer. Optional dependencies/AI weights are not bundled. Installable plugin and plain skill folder contain the same resources.
+- Portable paths/commands do not constitute testing on every OS. Consult README and release checks for exactly what was tested. Do not claim that tools can hear like a human or guarantee expert taste, or that every real Foley can be synthesized convincingly.
