@@ -1,0 +1,20 @@
+{
+  "name": "zaylobiddinovic-motion",
+  "owner": {
+    "name": "Zaylobiddinovic",
+    "url": "https://github.com/umar1289"
+  },
+  "metadata": {
+    "description": "Code-driven video production skills for Claude Code: motion graphics, editing, captions and sound with Remotion and FFmpeg.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "zaylobiddinovic-motion",
+      "source": "./",
+      "description": "Make motion graphics, 3D product and logo animations, reels, captions, sound effects and footage edits with Claude Code, rendered locally with Remotion and FFmpeg.",
+      "version": "1.0.0",
+      "category": "creative"
+    }
+  ]
+}

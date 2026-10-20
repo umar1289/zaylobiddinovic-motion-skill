@@ -1,0 +1,72 @@
+[
+ {
+  "text": "This",
+  "startMs": 300,
+  "endMs": 620,
+  "timestampMs": 460,
+  "confidence": 1
+ },
+ {
+  "text": " starter",
+  "startMs": 680,
+  "endMs": 1075,
+  "timestampMs": 877,
+  "confidence": 1
+ },
+ {
+  "text": " turns",
+  "startMs": 1135,
+  "endMs": 1480,
+  "timestampMs": 1307,
+  "confidence": 1
+ },
+ {
+  "text": " any",
+  "startMs": 1540,
+  "endMs": 1835,
+  "timestampMs": 1687,
+  "confidence": 1
+ },
+ {
+  "text": " transcript",
+  "startMs": 1895,
+  "endMs": 2365,
+  "timestampMs": 2130,
+  "confidence": 1
+ },
+ {
+  "text": " into",
+  "startMs": 2425,
+  "endMs": 2745,
+  "timestampMs": 2585,
+  "confidence": 1
+ },
+ {
+  "text": " animated",
+  "startMs": 2805,
+  "endMs": 3225,
+  "timestampMs": 3015,
+  "confidence": 1
+ },
+ {
+  "text": " captions",
+  "startMs": 3285,
+  "endMs": 3705,
+  "timestampMs": 3495,
+  "confidence": 1
+ },
+ {
+  "text": " in",
+  "startMs": 3765,
+  "endMs": 4035,
+  "timestampMs": 3900,
+  "confidence": 1
+ },
+ {
+  "text": " seconds",
+  "startMs": 4095,
+  "endMs": 4490,
+  "timestampMs": 4292,
+  "confidence": 1
+ }
+]
