@@ -1,68 +1,66 @@
 # zaylobiddinovic-motion
 
-A Claude Code skill that acts as director, motion designer, editor and sound designer for your videos. Describe the video; Claude reverse-engineers your references, writes the voiceover script and storyboard, builds a visual design file for approval, renders deterministic code-drawn animation in headless Chrome, checks timestamped contact sheets of every change, and delivers a versioned final file. No After Effects needed.
+[English](README.en.md) · **O'zbekcha**
 
-**What it handles**
+Claude Code uchun skill: videolaringiz uchun rejissyor, motion dizayner, montajchi va ovoz dizayneri vazifasini bajaradi. Videoni tasvirlab berasiz, Claude esa namuna (reference) videolaringizni tahlil qiladi, ovoz uchun ssenariy va storyboard yozadi, tasdiqlash uchun vizual dizayn faylini tayyorlaydi, kod bilan chizilgan animatsiyani headless Chrome'da deterministik render qiladi, har bir o'zgarishni vaqt belgili kontakt varaqlarda tekshiradi va versiyalangan tayyor faylni topshiradi. After Effects kerak emas.
 
-- Motion graphics: kinetic typography, explainers, UI/SaaS promos, logo stings, 2D and 3D (Three.js / React Three Fiber) scenes
-- Three pipelines: A code-drawn, B mixed AI assets + code, C footage edits (talking heads, tutorials, UGC)
-- Reference analysis: timestamped contact sheets, every frame of the hook, scene cuts, spectrogram, onset candidates
-- Voiceover: paste-ready ElevenLabs scripts with word budgets; timing locked to your final recording
-- Sound design: seeded procedural SFX, your own licensed library with a verifiable catalog, optional ElevenLabs generation, optional local CLAP/PANNs analysis
-- Project memory (`TASTE.md`, `PROGRESS.md`, `LOG.md`, `manifest.json`) so a new chat continues in the same style
-- QA and delivery: safe zones, contrast, sync, loudness (−14 LUFS / −1.5 dBTP), licences, versioned outputs
+**Nimalar qila oladi**
 
-## Install
+- Motion grafika: kinetik tipografiya, tushuntiruvchi videolar, UI/SaaS promolar, logotip animatsiyalari, 2D va 3D (Three.js / React Three Fiber) sahnalar
+- Uchta pipeline: A, kod bilan chizilgan; B, AI rasmlar va kod aralash; C, tayyor footage montaji (gapiruvchi shaxs, darsliklar, UGC)
+- Reference tahlili: vaqt belgili kontakt varaqlar, hook'ning har bir kadri, sahna kesimlari, spektrogramma, tovush boshlanish (onset) nomzodlari
+- Ovoz yozuvi (voiceover): ElevenLabs'ga qo'yishga tayyor ssenariylar va so'z byudjeti; vaqt sizning yakuniy yozuvingizga qulflanadi
+- Ovoz dizayni: bir xil seed bilan har safar bir xil chiqadigan protsedurali SFX, tekshiriladigan katalogli o'z litsenziyali kutubxonangiz, ixtiyoriy ElevenLabs generatsiyasi, ixtiyoriy lokal CLAP/PANNs tahlili
+- Loyiha xotirasi (`TASTE.md`, `PROGRESS.md`, `LOG.md`, `manifest.json`): yangi chatda ham uslub saqlanadi
+- Sifat nazorati va topshirish: xavfsiz zonalar, kontrast, sinxronlik, ovoz balandligi (−14 LUFS / −1,5 dBTP), litsenziyalar, versiyalangan fayllar
 
-In Claude Code:
+## O'rnatish
+
+Claude Code ichida:
 
 ```
 /plugin marketplace add umar1289/zaylobiddinovic-motion-skill
 /plugin install zaylobiddinovic-motion@zaylobiddinovic-motion
 ```
 
-Or copy `skills/zaylobiddinovic-motion/` into `~/.claude/skills/` (all projects) or `<project>/.claude/skills/` (one project). See `skills/zaylobiddinovic-motion/reference/installation.md` for the Claude app and host limits.
+Yoki `skills/zaylobiddinovic-motion/` papkasini `~/.claude/skills/` (hamma loyihalar uchun) yoki `<loyiha>/.claude/skills/` (bitta loyiha uchun) ichiga nusxalang. Claude ilovasi va muhit cheklovlari haqida `skills/zaylobiddinovic-motion/reference/installation.md` ga qarang.
 
-## Requirements
+## Talablar
 
-- Python 3.10+ (helper scripts)
-- FFmpeg and ffprobe
-- Node.js 18+ with Playwright and Chromium for code-rendered scenes
-- Optional: NumPy + SciPy (procedural SFX), librosa + soundfile (waveform analysis), Pillow (labelled reference sheets)
-- Optional: an ElevenLabs API key (`ELEVENLABS_API_KEY`) for generated sound effects
+- Python 3.10+ (yordamchi skriptlar uchun)
+- FFmpeg va ffprobe
+- Node.js 18+, Playwright va Chromium (kod bilan chizilgan sahnalarni render qilish uchun)
+- Ixtiyoriy: NumPy + SciPy (protsedurali SFX), librosa + soundfile (to'lqin shakli tahlili), Pillow (yorliqli reference varaqlar)
+- Ixtiyoriy: ElevenLabs API kaliti (`ELEVENLABS_API_KEY`), generatsiya qilingan ovoz effektlari uchun
 
-Check with:
+Tekshirish:
 
 ```bash
 python3 skills/zaylobiddinovic-motion/scripts/preflight.py
 ```
 
-The check is read-only. Claude asks before installing packages, downloading models or making paid API calls.
+Bu tekshiruv faqat o'qiydi, hech narsani o'zgartirmaydi. Claude paket o'rnatishdan, model yuklab olishdan yoki pullik API chaqirishdan oldin ruxsat so'raydi.
 
-## Try it
+## Sinab ko'ring
 
-- "Create a 10-second kinetic typography video."
-- "Here's a reference reel, reverse-engineer it and make one for my app."
-- "Write a 30-second voiceover script for ElevenLabs about my product."
-- "Fix only the title size at 0:04 in this project."
-- "Add sound effects: soft ticks on each word, a pop when the card lands."
+- "10 soniyalik kinetik tipografiya videosi yasab ber."
+- "Mana namuna reel. Uni tahlil qilib, mening ilovam uchun shunga o'xshash video yasab ber."
+- "Mahsulotim haqida ElevenLabs uchun 30 soniyalik ovoz ssenariysi yoz."
+- "Faqat shu loyihadagi 0:04 dagi sarlavha o'lchamini tuzat."
+- "Ovoz effektlari qo'sh: har bir so'zga yumshoq tik, kartochka tushganda pop."
 
-## What's inside
+## Ichida nima bor
 
 ```
 skills/zaylobiddinovic-motion/
-  SKILL.md            workflow Claude follows
-  reference/          planning, visual design, voiceover, 3D, sound, fonts, recipes, delivery guides
-  scripts/            preflight, reference analysis, range previews, SFX tools, env helpers
-  templates/          TASTE.md, design.html, SFX catalog, deterministic render starter
+  SKILL.md            Claude amal qiladigan ish jarayoni
+  reference/          rejalashtirish, vizual dizayn, ovoz yozuvi, 3D, ovoz, shriftlar, retseptlar, topshirish qo'llanmalari
+  scripts/            preflight, reference tahlili, oraliq previewlar, SFX vositalari, env yordamchilari
+  templates/          TASTE.md, design.html, SFX katalogi, deterministik render starteri
 ```
 
-## Licences
+`SKILL.md` va `reference/` ichidagi qo'llanmalar ingliz tilida yozilgan. Claude bilan o'zbekcha gaplashishingiz mumkin.
 
-MIT licensed (see `LICENSE`). Third-party software, models, fonts, footage, music and sound effects keep their own licences; you are responsible for the rights to assets used in your videos.
+## Litsenziya
 
----
-
-### O'zbekcha qisqacha
-
-Claude Code uchun video rejissyor skilli. Videoni tasvirlaysiz, Claude esa reference videolarni tahlil qiladi, ElevenLabs uchun ovoz ssenariysini va storyboard'ni yozadi, tasdiqlash uchun vizual dizayn faylini tayyorlaydi, animatsiyani kod bilan chizib headless Chrome'da render qiladi, har o'zgarishni vaqt belgili kontakt varaqlarda tekshiradi va versiyalangan tayyor faylni beradi. Loyiha xotirasi (`TASTE.md`, `PROGRESS.md`) tufayli yangi chatda ham uslub saqlanadi. O'rnatish buyruqlari yuqorida.
+MIT litsenziyasi (`LICENSE` ga qarang). Uchinchi tomon dasturlari, modellari, shriftlari, footage, musiqa va ovoz effektlari o'z litsenziyalari ostida qoladi; videolaringizda ishlatgan materiallar huquqlari uchun o'zingiz javobgarsiz.
